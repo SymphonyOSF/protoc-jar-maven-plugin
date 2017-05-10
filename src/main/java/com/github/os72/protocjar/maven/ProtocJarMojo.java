@@ -82,9 +82,9 @@ public class ProtocJarMojo extends AbstractMojo
 	/**
 	 * This parameter lets you specify a custom shade package
 	 *
-	 * @parameter property="shadePackage"
+	 * @parameter property="shadedProtobufPackage"
 	 */
-	private String shadePackage;
+	private String shadedProtobufPackage;
 
 	/**
 	 * If "true", extract the included google.protobuf standard types and add them to protoc import path.
@@ -360,8 +360,8 @@ public class ProtocJarMojo extends AbstractMojo
 			for (File include : includeDirectories) getLog().info("    " + include);
 		}
 
-		if(shadePackage != null) {
-			getLog().info("shade package: " + shadePackage);
+		if(shadedProtobufPackage != null) {
+			getLog().info("shade package: " + shadedProtobufPackage);
 		}
 		
 		getLog().info("Output targets:");
@@ -409,7 +409,8 @@ public class ProtocJarMojo extends AbstractMojo
 				for (File protoFile : protoFiles) {
 					if (target.cleanOutputFolder || buildContext.hasDelta(protoFile.getPath())) {
 						processFile(protoFile, protocVersion, targetType, target.pluginPath, target.outputDirectory, target.outputOptions,
-								shadePackage);
+
+								shadedProtobufPackage);
 					}
 					else {
 						getLog().info("Not changed " + protoFile);
@@ -425,7 +426,7 @@ public class ProtocJarMojo extends AbstractMojo
 		if (shaded) {
 			try {
 				getLog().info("    Shading (version " + protocVersion + "): " + target.outputDirectory);
-				Protoc.doShading(target.outputDirectory, shadePackage, protocVersion);
+				Protoc.doShading(target.outputDirectory, shadedProtobufPackage, protocVersion);
 			}
 			catch (IOException e) {
 				throw new MojoExecutionException("Error occurred during shading", e);
