@@ -80,6 +80,13 @@ public class ProtocJarMojo extends AbstractMojo
 	private File[] includeDirectories;
 
 	/**
+	 * This parameter lets you specify a custom shade package
+	 *
+	 * @parameter property="shadedProtobufPackage"
+	 */
+	private String shadedProtobufPackage;
+
+	/**
 	 * If "true", extract the included google.protobuf standard types and add them to protoc import path.
 	 * 
 	 * @parameter property="includeStdTypes" default-value="false"
@@ -352,6 +359,10 @@ public class ProtocJarMojo extends AbstractMojo
 			getLog().info("Include directories:");
 			for (File include : includeDirectories) getLog().info("    " + include);
 		}
+
+		if(shadedProtobufPackage != null) {
+			getLog().info("shade package: " + shadedProtobufPackage);
+		}
 		
 		getLog().info("Output targets:");
 		for (OutputTarget target : outputTargets) getLog().info("    " + target);
@@ -397,7 +408,9 @@ public class ProtocJarMojo extends AbstractMojo
 				Collection<File> protoFiles = FileUtils.listFiles(input, fileFilter, TrueFileFilter.INSTANCE);
 				for (File protoFile : protoFiles) {
 					if (target.cleanOutputFolder || buildContext.hasDelta(protoFile.getPath())) {
-						processFile(protoFile, protocVersion, targetType, target.pluginPath, target.outputDirectory, target.outputOptions);
+						processFile(protoFile, protocVersion, targetType, target.pluginPath, target.outputDirectory, target.outputOptions,
+
+								shadedProtobufPackage);
 					}
 					else {
 						getLog().info("Not changed " + protoFile);
@@ -413,7 +426,7 @@ public class ProtocJarMojo extends AbstractMojo
 		if (shaded) {
 			try {
 				getLog().info("    Shading (version " + protocVersion + "): " + target.outputDirectory);
-				Protoc.doShading(target.outputDirectory, protocVersion.replace(".", ""));
+				Protoc.doShading(target.outputDirectory, shadedProtobufPackage, protocVersion);
 			}
 			catch (IOException e) {
 				throw new MojoExecutionException("Error occurred during shading", e);
@@ -436,9 +449,10 @@ public class ProtocJarMojo extends AbstractMojo
 		}
 	}
 
-	private void processFile(File file, String version, String type, String pluginPath, File outputDir, String outputOptions) throws MojoExecutionException {
+	private void processFile(File file, String version, String type, String pluginPath,
+			File outputDir, String outputOptions, String shadePackage) throws MojoExecutionException {
 		getLog().info("    Processing ("+ type + "): " + file.getName());
-		Collection<String> cmd = buildCommand(file, version, type, pluginPath, outputDir, outputOptions);
+		Collection<String> cmd = buildCommand(file, version, type, pluginPath, outputDir, outputOptions, shadePackage);
 		try {
 			int ret = 0;
 			if (protocCommand == null) ret = Protoc.runProtoc(cmd.toArray(new String[0]));
@@ -453,7 +467,10 @@ public class ProtocJarMojo extends AbstractMojo
 		}
 	}
 
-	private Collection<String> buildCommand(File file, String version, String type, String pluginPath, File outputDir, String outputOptions) throws MojoExecutionException {
+	private Collection<String> buildCommand(File file, String version, String type, String pluginPath,
+
+
+			File outputDir, String outputOptions, String shadePackage) throws MojoExecutionException {
 		Collection<String> cmd = new ArrayList<String>();
 		populateIncludes(cmd);
 		cmd.add("-I" + file.getParentFile().getAbsolutePath());
@@ -480,6 +497,10 @@ public class ProtocJarMojo extends AbstractMojo
 		}
 		cmd.add(file.toString());
 		if (version != null) cmd.add("-v" + version);
+
+		if(shadePackage != null) {
+			cmd.add("--java_shade_pkg=" + shadePackage);
+		}
 		return cmd;
 	}
 
