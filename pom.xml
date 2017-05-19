@@ -155,9 +155,11 @@
                         <enabled>false</enabled>
                     </snapshots>
                 </repository>
+
                 <repository>
                     <id>snapshots</id>
-                    <url>https://repo.symphony.com/artifactory/libs-snapshot</url>
+					<!-- This fix was need because the protoc-jar is being published on plugins-snapshot-local -->
+                    <url>https://repo.symphony.com/artifactory/plugins-snapshot-local</url>
                     <releases>
                         <enabled>false</enabled>
                     </releases>
