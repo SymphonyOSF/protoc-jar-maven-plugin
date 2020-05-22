@@ -1,6 +1,105 @@
 protoc-jar-maven-plugin release notes
 =====================================
 
+#### 3.11.4 (7-Mar-2020)
+* Upgrade to protoc 3.11.4
+* Preserve native plugin artifact extension (issue #89)
+* Expose option "includeImports" (only applies to type "descriptor") (issue #88)
+* Shading fix for version 3.11.1 or higher (protoc-jar issue #78)
+* Improve log output when using default maven settings (protoc-jar issue #77)
+
+#### 3.11.1 (10-Dec-2019)
+* Upgrade to protoc 3.11.1
+* Support using .proto files in dependencies that aren't packaged (issue #79)
+* Small enhancement for shading naming convention
+
+#### 3.10.1 (30-Nov-2019)
+* Upgrade to protoc 3.10.1
+
+#### 3.9.2 (29-Nov-2019)
+* Upgrade to protoc 3.9.2
+* Add test and documentation for javalite output option (issue #80)
+* Small fix for optimizeCodegen option
+
+#### 3.8.0 (9-Jun-2019)
+* Upgrade to protoc 3.8.0
+* Support custom classifier extensions for plugin artifacts (issue #75)
+
+#### 3.7.1 (17-May-2019)
+* Upgrade to protoc 3.7.1
+* Fix: regenerate code if missing an output directory (issue #72)
+* Fix: error extracting maven include types (issue #74)
+
+#### 3.7.0.2 (3-Apr-2019)
+* Some fixes for option "optimizeCodegen" (issue #41, issue #71)
+
+#### 3.7.0.1 (28-Mar-2019)
+* New option "optimizeCodegen" to skip code generation when .proto input files appear unchanged (issue #41)
+* Support download via maven mirror and/or proxy (issue #68, protoc-jar issue #57)
+
+#### 3.7.0 (8-Mar-2019, 13-Mar-2019)
+* Upgrade to protoc 3.7.0
+* New option "compileMavenTypes" to compile .proto files from maven dependencies
+* Update maven central download URL (https://repo.maven.apache.org/maven2/)
+* Supports FreeBSD/x86, Solaris/x86 (freebsd-x86_64, sunos-x86_64)
+* Supports Linux/ARM, Linux/POWER8, now provided by Google (linux-aarch_64, linux-ppcle_64)
+
+#### 3.6.0.2 (16-Dec-2018)
+* Fix: NPE when includeStdTypes is set to true (issue #60)
+* Add integration tests (issue #31)
+* Fix: download can fail/freeze silently (protoc-jar issue #56)
+* Set download connection timeout (5 sec)
+* Supports FreeBSD/x86, Solaris/x86, Linux/POWER8 (freebsd-x86_64, sunos-x86_64, linux-ppcle_64)
+* Supports Linux/ARM, provided by Google (linux-aarch_64)
+
+#### 3.6.0.1 (1-Jul-2018)
+* Fix: handle errors when parsing protoc warnings/errors
+
+#### 3.6.0 (30-Jun-2018)
+* Upgrade to protoc 3.6.0
+* New option "includeMavenTypes" to import .proto files from maven dependencies (issue #19)
+* Add Eclipse (m2e) warnings/errors
+* Supports FreeBSD/x86, Linux/POWER8 (freebsd-x86_64, linux-ppcle_64)
+* Supports Linux/ARM, provided by Google (linux-aarch_64)
+
+#### 3.5.1.1 (27-Jan-2018)
+* Fix regression in shading (due to incorrect version formatting)
+
+#### 3.5.1 (21-Jan-2018)
+* Upgrade to protoc 3.5.1
+* New option "addProtoSources" to add source .proto files to the generated jar file (issue #44)
+* Supports FreeBSD/x86, Linux/POWER8 (freebsd-x86_64, linux-ppcle_64)
+* Supports Linux/ARM, provided by Google (linux-aarch_64)
+
+#### 3.5.0 (28-Nov-2017)
+* Upgrade to protoc 3.5.0
+* Supports FreeBSD/x86, Linux/POWER8 (freebsd-x86_64, linux-ppcle_64)
+* Supports Linux/ARM, provided by Google now (linux-aarch_64)
+
+#### 3.4.0.2 (12-Nov-2017)
+* Support for Linux on ARM platform (linux-aarch_64; 2.4.1, 2.6.1, 3.4.0)
+* Fix: download would not replace existing file (eg, maven-metadata.xml)
+
+#### 3.4.0.1 (29-Sep-2017)
+* Support for Linux on POWER8 platform (linux-ppcle_64)
+* Support for FreeBSD on x86 platform (freebsd-x86_64)
+* Support unbundled binaries with automatic download from maven central
+* Remove 3.x version map to 3.4.0
+
+#### 3.4.0 (29-Aug-2017)
+* Upgrade to protoc 3.4.0
+* Map previous 3.x versions to 3.4.0 for backward compatibility
+* Support POWER8 (ppc64le) platform (protoc 3.4.0 only)
+
+#### 3.3.0.1 (22-Jun-2017)
+* Use alternative dir (user.home) if execution in temp dir fails (issue #39)
+* Fix "includeStdTypes" logic that could break "protocCommand" (issue #40)
+
+#### 3.3.0 (28-May-2017)
+* Upgrade to protoc 3.3.0
+* Map 3.0.0, 3.1.0, 3.2.0 to 3.3.0 for backward compatibility
+* Fix for shading when tmp dir and source code are on different filesystems (type java-shaded)
+
 #### 3.2.0.1 (2-Apr-2017)
 * More flexibility for parameter "outputOptions" when generating descriptors (issue #36)
 * Separate proto3 and proto2 standard types (parameter "includeStdTypes")
