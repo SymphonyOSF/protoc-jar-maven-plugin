@@ -3,7 +3,7 @@ protoc-jar-maven-plugin
 
 This was forked from [os72/protoc-jar-maven-plugin](https://github.com/os72/protoc-jar-maven-plugin) because we need to use the 3.2.0.2-SNAPSHOT that have the filesystem issue fixed. The groupId was changed from com.github.os72 to com.symphony to avoid conflicts.
 
-Protocol Buffers protobuf maven plugin - performs protobuf code generation using [protoc-jar](https://github.com/os72/protoc-jar) multi-platform executable protoc JAR.
+Protocol Buffers protobuf maven plugin - performs protobuf code generation using [protoc-jar](https://github.com/SymphonyOSF/protoc-jar) multi-platform executable protoc JAR.
 Available on Maven Central: https://repo.maven.apache.org/maven2/com/github/os72/protoc-jar-maven-plugin/3.11.4/
 
 [![Maven Central](https://img.shields.io/badge/maven%20central-3.11.4-brightgreen.svg)](http://search.maven.org/#artifactdetails|com.github.os72|protoc-jar-maven-plugin|3.11.4|)
