@@ -10,7 +10,7 @@ Available on Maven Central: https://repo.maven.apache.org/maven2/com/github/os72
 
 Simple maven plugin to compile .proto files using [protoc-jar](https://github.com/os72/protoc-jar) embedded protoc compiler, providing some portability across the major platforms (Linux, Mac/OSX, and Windows). At build time the plugin detects the platform and executes the corresponding protoc binary.
 
-Supports embedded protoc versions 2.4.1, 2.5.0, 2.6.1, 3.11.4, and any binaries (protoc and protoc plugins) available for download from maven central. Also supports pre-installed protoc binary
+Supports embedded protoc versions 3.2.0, 3.11.0, 3.11.4, and any binaries (protoc and protoc plugins) available for download from maven central. Also supports pre-installed protoc binary
 
 * Support for FreeBSD on x86 platform (freebsd-x86_64), thanks [kjopek](https://github.com/kjopek)
 * Support for Solaris on x86 platform (sunos-x86_64), thanks [siepkes](https://github.com/siepkes)
@@ -32,7 +32,6 @@ See also
 Binaries
 * https://repo.maven.apache.org/maven2/com/google/protobuf/protoc/
 * https://repo.maven.apache.org/maven2/com/github/os72/protoc/
-* https://oss.sonatype.org/content/repositories/snapshots/com/github/os72/protoc/
 
 #### Usage
 
@@ -41,7 +40,7 @@ Documentation: see http://os72.github.io/protoc-jar-maven-plugin/, in particular
 Sample usage - compile in main cycle into `target/generated-sources`, add generated sources to project, use default `protoc` version and default `src/main/protobuf` source folder:
 ```xml
 <plugin>
-	<groupId>com.github.os72</groupId>
+	<groupId>com.symphony</groupId>
 	<artifactId>protoc-jar-maven-plugin</artifactId>
 	<version>3.11.0.0</version>
 	<executions>
@@ -55,12 +54,18 @@ Sample usage - compile in main cycle into `target/generated-sources`, add genera
 </plugin>
 ```
 
-Sample usage - compile in main cycle into `target/generated-sources`, add generated sources to project, add all .proto sources to generated jar, include .proto files from direct maven dependencies, include additional imports:
+Sample usage - generate with custom shaded package
 ```xml
 <plugin>
-	<groupId>com.github.os72</groupId>
+	<groupId>com.symphony</groupId>
 	<artifactId>protoc-jar-maven-plugin</artifactId>
 	<version>3.11.0.0</version>
+    <configuration>
+        <protocVersion>3.11.0</protocVersion> <!-- 2.4.1, 2.5.0, 2.6.1, 3.2.0 -->
+        <type>java-shaded</type>
+        <addSources>none</addSources>
+        <shadedProtobufPackage>com.symphony.proto</shadedProtobufPackage> <!--custom package name-->
+    </configuration>
 	<executions>
 		<execution>
 			<phase>generate-sources</phase>
@@ -68,11 +73,7 @@ Sample usage - compile in main cycle into `target/generated-sources`, add genera
 				<goal>run</goal>
 			</goals>
 			<configuration>
-				<protocVersion>3.2.0</protocVersion> <!-- 2.4.1, 2.5.0, 2.6.1, 3.2.0 -->
-				<includeStdTypes>true</includeStdTypes>
-				<includeDirectories>
-					<include>src/main/more_proto_imports</include>
-				</includeDirectories>
+				<outputDirectory>src/main/java</outputDirectory>
 				<inputDirectories>
 					<include>src/main/protobuf</include>
 				</inputDirectories>
@@ -82,10 +83,12 @@ Sample usage - compile in main cycle into `target/generated-sources`, add genera
 </plugin>
 ```
 
+
+
 Sample usage - download protoc and plugin binaries from maven repo, multiple output targets (example: gRPC):
 ```xml
 <plugin>
-	<groupId>com.github.os72</groupId>
+	<groupId>com.symphony</groupId>
 	<artifactId>protoc-jar-maven-plugin</artifactId>
 	<version>3.11.0.0</version>
 	<executions>
@@ -117,7 +120,7 @@ Sample usage - download protoc and plugin binaries from maven repo, multiple out
 Sample usage - compile in test cycle, multiple output targets, don't alter project (`<addSources>: none`):
 ```xml
 <plugin>
-	<groupId>com.github.os72</groupId>
+	<groupId>com.symphony</groupId>
 	<artifactId>protoc-jar-maven-plugin</artifactId>
 	<version>3.11.0.0</version>
 	<executions>
@@ -149,31 +152,6 @@ Sample usage - compile in test cycle, multiple output targets, don't alter proje
 </plugin>
 ```
 
-Sample usage - generate java shaded for use with `protobuf-java-shaded-241`, don't alter project:
-```xml
-<plugin>
-	<groupId>com.github.os72</groupId>
-	<artifactId>protoc-jar-maven-plugin</artifactId>
-	<version>3.11.0.0</version>
-	<executions>
-		<execution>
-			<phase>generate-sources</phase>
-			<goals>
-				<goal>run</goal>
-			</goals>
-			<configuration>
-				<protocVersion>2.4.1</protocVersion> <!-- 2.4.1, 2.5.0, 2.6.1, 3.2.0 -->
-				<type>java-shaded</type>
-				<addSources>none</addSources>
-				<outputDirectory>src/main/java</outputDirectory>
-				<inputDirectories>
-					<include>src/main/protobuf</include>
-				</inputDirectories>
-			</configuration>
-		</execution>
-	</executions>
-</plugin>
-```
 
 #### Credits
 

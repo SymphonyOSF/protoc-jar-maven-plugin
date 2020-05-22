@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.github.os72</groupId>
+  <groupId>com.symphony</groupId>
   <artifactId>protoc-jar-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
   <version>3.11.0.0-SNAPSHOT</version>
@@ -37,11 +37,18 @@
 	<url>git@github.com:os72/protoc-jar-maven-plugin.git</url>
   </scm>
 
+  <properties>
+	  <!-- https://repo.symphony.com/artifactory/libs-release/com/symphony/protoc-jar/ -->
+	  <symphony.protoc.jar.version>3.11.0.0</symphony.protoc.jar.version>
+	  <junit.version>4.12</junit.version>
+	  <commons.io.version>2.2</commons.io.version>
+  </properties>
+
   <dependencies>
 	<dependency>
 	  <groupId>com.symphony</groupId>
 	  <artifactId>protoc-jar</artifactId>
-	  <version>3.11.0.0-SNAPSHOT</version>
+	  <version>${symphony.protoc.jar.version}</version>
 	</dependency>
 	<dependency>
 	  <groupId>org.apache.maven</groupId>
@@ -66,16 +73,17 @@
 	<dependency>
 	  <groupId>commons-io</groupId>
 	  <artifactId>commons-io</artifactId>
-	  <version>2.2</version>
+	  <version>${commons.io.version}</version>
 	</dependency>
 
     <!-- test -->
 	<dependency>
 	  <groupId>junit</groupId>
 	  <artifactId>junit</artifactId>
-	  <version>4.12</version>
+	  <version>${junit.version}</version>
 	  <scope>test</scope>
 	</dependency>
+
 	<dependency>
 	  <groupId>io.takari.maven.plugins</groupId>
 	  <artifactId>takari-plugin-integration-testing</artifactId>
@@ -83,6 +91,7 @@
 	  <type>pom</type>
 	  <scope>test</scope>
 	</dependency>
+	  <!-- test -->
   </dependencies>
 
   <profiles>

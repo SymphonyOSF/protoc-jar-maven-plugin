@@ -31,8 +31,7 @@ import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
 
 @RunWith(MavenJUnitTestRunner.class)
 @MavenVersions({"3.2.3"})
-public class MojoMvnCompileTest
-{
+public class MojoMvnCompileTest {
 	@Rule
 	public final TestResources resources = new TestResources();
 	public final MavenRuntime maven;

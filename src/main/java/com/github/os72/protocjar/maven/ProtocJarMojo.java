@@ -647,7 +647,7 @@ public class ProtocJarMojo extends AbstractMojo
 		if (shaded) {
 			try {
 				getLog().info("    Shading (version " + protocVersion + "): " + target.outputDirectory);
-				Protoc.doShading(target.outputDirectory, protocVersion.replace(".", ""));
+				Protoc.doShading(target.outputDirectory, shadedProtobufPackage, protocVersion.replace(".", ""));
 			}
 			catch (IOException e) {
 				throw new MojoExecutionException("Error occurred during shading", e);
@@ -684,7 +684,7 @@ public class ProtocJarMojo extends AbstractMojo
 			TeeOutputStream errTee = new TeeOutputStream(System.err, err);
 
 			int ret = 0;
-			Collection<String> cmd = buildCommand(file, version, type, pluginPath, outputDir, outputOptions);
+			Collection<String> cmd = buildCommand(file, version, type, pluginPath, outputDir, outputOptions, shadePackage);
 			if (protocCommand == null) ret = Protoc.runProtoc(cmd.toArray(new String[0]), outTee, errTee);
 			else ret = Protoc.runProtoc(protocCommand, Arrays.asList(cmd.toArray(new String[0])), outTee, errTee);
 
@@ -876,8 +876,7 @@ public class ProtocJarMojo extends AbstractMojo
 	}
 
 	static boolean isEmpty(String s) {
-		if (s != null && s.length() > 0) return false;
-		return true;
+		return s == null || s.length() == 0;
 	}
 
 	static class FileFilter implements IOFileFilter
